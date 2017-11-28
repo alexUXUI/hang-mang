@@ -11,8 +11,6 @@ const reducer = (state = {
   userWon: false
 }, action) => {
 
-  // console.log(`WHAT IS REDUCER STATE? ${inspect(state)}`)
-
   switch (action.type) {
     
     case 'BUTTON_CLICKED': {
@@ -30,7 +28,6 @@ const reducer = (state = {
     }
 
     case 'LETTER_GUESSED': {
-      console.log('SETTING THAT A LETTER WAS GUESSED IN STATE');
       return {
         ...state,
         gameWordAnswer: {
@@ -41,7 +38,6 @@ const reducer = (state = {
     }
     
     case 'USER_WON': {
-      console.log(`USER WON \n\n\n\n\n\n\n\n\n\n\n`)
       return {
         ...state,
         userWon: true 
@@ -49,7 +45,6 @@ const reducer = (state = {
     }
 
     case 'DECREMENT_GUESSES': {
-      console.log('YOOOO', state.numberOfGuesses)
       return {
         ...state,
         numberOfGuesses: state.numberOfGuesses - 1,
@@ -57,7 +52,6 @@ const reducer = (state = {
     }
 
     case 'SET_NUMBER_OF_GUESSES': {
-      console.log(`set number of guesses ${action.payload}`)
       return {
         ...state,
         numberOfGuesses: action.payload,

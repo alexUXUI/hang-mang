@@ -5,8 +5,9 @@ import { letterGuessedAction, setGameWordAnswerAction, userWonAction, setNumberO
 import { inspect } from 'util';
 
 class Word extends React.Component {
+
   constructor(props) {
-    super(props)
+    super(props);
 
     let { 
       gameWord, 
@@ -18,13 +19,8 @@ class Word extends React.Component {
 
     this.wordsCharacters = gameWord.split('');
     this.wordLength = gameWord.length;
-    this.gameAnswer = this.props.gameAnswer;
 
-    this.state = {
-      currectAnswer: this.wordsCharacters,
-    }
-
-    this.answer = this.wordsCharacters.reduce(function(acc, cur, i) {
+    this.wordDictionary = this.wordsCharacters.reduce(function(acc, cur, i) {
       acc[cur] = i;
       return acc;
     }, {});
@@ -53,7 +49,7 @@ class Word extends React.Component {
     return 
   }
 
-  wordBoard = (gameAnswer) => Object.keys(this.answer).map((character, index) => {
+  wordBoard = (gameAnswer) => Object.keys(this.wordDictionary).map((character, index) => {
     this.userDidWin();
     return (
       <div key={index} className='wordboard--character'>

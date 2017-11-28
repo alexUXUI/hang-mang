@@ -8,9 +8,7 @@ const enhancer = composeEnhancer(
   applyMiddleware(thunk),
 );
 
-const INITIAL_STATE = {
-  
-};
+const INITIAL_STATE = {};
 
 const Store = createStore(reducer, INITIAL_STATE, enhancer);
 

@@ -19,8 +19,6 @@ class ApplicationContainer extends React.Component {
   }
 
   componentWillMount() { // lifecycle method makes call to set word
-    console.log('going to mount');
-
     this.setState({
       gameWord: 'yo',
     });
@@ -63,13 +61,11 @@ class ApplicationContainer extends React.Component {
 
 }
 
-const mapStateToprops = state => {
-  return {
-    gameWordDictionary: state.reducer.gameWordAnswer,
-    userWon: state.reducer.userWon,
-    numberOfGuesses: state.reducer.numberOfGuesses,
-  }
-}
+const mapStateToprops = state => ({
+  gameWordDictionary: state.reducer.gameWordAnswer,
+  userWon: state.reducer.userWon,
+  numberOfGuesses: state.reducer.numberOfGuesses,
+});
 
 const mapDispatchToProps = dispatch => ({
   setGameWordAnswerAction: (gameWord) => dispatch(setGameWordAnswerAction(gameWord)),
