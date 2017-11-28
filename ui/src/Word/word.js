@@ -1,13 +1,20 @@
 import React from 'react';
 import './word.css';
 import { connect } from 'react-redux';
-import { letterGuessedAction, setGameWordAnswerAction } from '../store/actions';
+import { letterGuessedAction, setGameWordAnswerAction, userWonAction, setNumberOfGuesses } from '../store/actions';
 import { inspect } from 'util';
 
 class Word extends React.Component {
   constructor(props) {
     super(props)
-    let { gameWord, characterGuess, currentGuess, gameAnswer, answer } = this.props;
+
+    let { 
+      gameWord, 
+      characterGuess, 
+      currentGuess, 
+      gameAnswer, 
+      answer 
+    } = this.props;
 
     this.wordsCharacters = gameWord.split('');
     this.wordLength = gameWord.length;
@@ -23,12 +30,12 @@ class Word extends React.Component {
     }, {});
   }
 
-  componentWillUpdate() {
+  componentWillMount() {
+    this.props.setNumberOfGuesses(this.wordLength);
+  }
 
-    console.log('DERRRR', this.props.answer)
-    // handle behaviour
+  userDidWin = () => {
     if(this.props.gameAnswer) {
-      
       Array.prototype.allValuesSame = function() {
         for(var i = 1; i < this.length; i++) {
             if(this[i] !== this[0]) {
@@ -37,18 +44,17 @@ class Word extends React.Component {
         }
         return true;
       }
-
       var didWin = Object.values(this.props.gameAnswer).allValuesSame();
-
-      console.log(`didWin: ${didWin}`)
+      if(didWin) {
+        this.props.userWonAction()
+      }
+      return 
     }
-  }
-
-  componentWillMount() {
-    this.props.setGameWordAnswerAction(this.answer);
+    return 
   }
 
   wordBoard = (gameAnswer) => Object.keys(this.answer).map((character, index) => {
+    this.userDidWin();
     return (
       <div key={index} className='wordboard--character'>
         { 
@@ -82,7 +88,9 @@ const mapStateToprops = state => {
 
 const mapDispatchToProps = dispatch => ({
   letterGuessedAction: letter => dispatch(letterGuessedAction(letter)),
-  setGameWordAnswerAction: gameWordAnswer => dispatch(setGameWordAnswerAction(gameWordAnswer))
+  setGameWordAnswerAction: gameWordAnswer => dispatch(setGameWordAnswerAction(gameWordAnswer)),
+  userWonAction: () => dispatch(userWonAction()),
+  setNumberOfGuesses: (number) => dispatch(setNumberOfGuesses(number))
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(Word);

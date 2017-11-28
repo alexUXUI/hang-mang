@@ -6,7 +6,7 @@ import Word from '../Word/word';
 import { connect } from 'react-redux';
 
 import './app.css';
-import { setGameWordAnswerAction } from '../store/actions';
+import { setGameWordAnswerAction, setNumberOfGuesses } from '../store/actions';
 
 class ApplicationContainer extends React.Component {
   constructor(props) {
@@ -21,15 +21,12 @@ class ApplicationContainer extends React.Component {
   componentWillMount() { // lifecycle method makes call to set word
     console.log('going to mount');
 
-
     this.setState({
-      gameWord: 'ostrich',
+      gameWord: 'yo',
     });
   }
 
   componentDidMount() {
-
-    console.log('did mount', this.props.gameWordDictionary)
     var answer = this.state.gameWord.split('').reduce((acc, cur, i) => {
       acc[cur] = i;
       return acc;
@@ -40,12 +37,12 @@ class ApplicationContainer extends React.Component {
     });
 
     return this.props.setGameWordAnswerAction(answer);
-    
   }
 
   render() {
 
     let { gameWord, answer } = this.state;
+    let { userWon, numberOfGuesses } = this.props;
 
     return(
       <div className="App-container">
@@ -55,7 +52,10 @@ class ApplicationContainer extends React.Component {
           answer={answer}
         />
         <Alphabet />
-        <Feedback />
+        <Feedback 
+          feedback={userWon}
+          numberOfGuesses={numberOfGuesses}
+        />
         <Guesses />
       </div>
     );
@@ -63,12 +63,17 @@ class ApplicationContainer extends React.Component {
 
 }
 
-const mapStateToprops = state => ({
-  gameWordDictionary: state.reducer.gameWordAnswer,
-})
+const mapStateToprops = state => {
+  return {
+    gameWordDictionary: state.reducer.gameWordAnswer,
+    userWon: state.reducer.userWon,
+    numberOfGuesses: state.reducer.numberOfGuesses,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   setGameWordAnswerAction: (gameWord) => dispatch(setGameWordAnswerAction(gameWord)),
+  setNumberOfGuesses: (number) => dispatch(setNumberOfGuesses(number))
 });
 
 export default connect(mapStateToprops, mapDispatchToProps)(ApplicationContainer);
