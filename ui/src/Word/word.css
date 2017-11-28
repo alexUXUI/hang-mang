@@ -1,0 +1,17 @@
+.wordboard {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+}
+
+.wordboard--character {
+  border-bottom: 10px solid black;
+  width: 50px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
